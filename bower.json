@@ -1,0 +1,24 @@
+{
+  "name": "carrental",
+  "homepage": "https://github.com/alex123bob/carrental",
+  "authors": [
+    "Alexander Li <alexander.li@ef.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "keywords": [
+    "car",
+    "rental"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
