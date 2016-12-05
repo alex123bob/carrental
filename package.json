@@ -1,0 +1,27 @@
+{
+  "name": "carrental",
+  "version": "1.0.0",
+  "description": "carrental project",
+  "main": "index.html",
+  "scripts": {
+    "start": "start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex123bob/carrental.git"
+  },
+  "keywords": [
+    "car",
+    "rental"
+  ],
+  "author": "Alexander Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alex123bob/carrental/issues"
+  },
+  "homepage": "https://github.com/alex123bob/carrental#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1"
+  }
+}
