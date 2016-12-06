@@ -4,7 +4,7 @@
   "description": "carrental project",
   "main": "index.html",
   "scripts": {
-    "start": "start"
+    "start": "node ./libs/index.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,9 @@
   "homepage": "https://github.com/alex123bob/carrental#readme",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "jquery": "^3.1.1"
+    "express": "^4.14.0",
+    "jquery": "^3.1.1",
+    "morgan": "^1.7.0",
+    "mysql": "mysqljs/mysql"
   }
 }
