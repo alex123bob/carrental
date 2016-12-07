@@ -8,6 +8,27 @@ html
     meta(name='author', content='')
     title= title
     link(rel='stylesheet', href='/node_modules/bootstrap/dist/css/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/justified-nav.css')
     block head
   body
-    block content
+    div.container
+      div.masthead
+        h3.text-muted 大巴租赁
+        nav
+          ul.nav.nav-justified
+            li.nav-item
+              a.nav-link(href='/') 主页
+            li.nav-item
+              a.nav-link(href='/history/testRenter') 历史
+            li.nav-item
+              a.nav-link(href='/apply') 租赁 
+            li.nav-item
+              a.nav-link(href='/status') 状态
+      block content
+      footer.footer
+        p &copy; Company 2016
+
+    script(src='/node_modules/jquery/dist/jquery.min.js')
+    script(src='/node_modules/bootstrap/dist/js/bootstrap.min.js')
+    script(src='/javascripts/common.js')
+    block footer-content

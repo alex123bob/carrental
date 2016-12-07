@@ -5,10 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var list = require('./routes/list');
-var conn = require('./libs/conn');
+var indexRouter = require('./routes/index');
+var historyRouter = require('./routes/history');
+var applyRouter = require('./routes/apply');
 
 var app = express();
 
@@ -25,9 +24,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/list', list);
+app.use('/', indexRouter);
+app.use('/history', historyRouter);
+app.use('/apply', applyRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -58,14 +57,6 @@ app.use(function (err, req, res, next) {
     message: err.message,
     error: {}
   });
-});
-
-conn.connect(function (err) {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  }
-  console.log('connected as id ' + conn.threadId);
 });
 
 

@@ -1,27 +1,9 @@
 extends layout
 
-block head
-  link(rel='stylesheet', href='/stylesheets/justified-nav.css')
-
 block content
-  div.container
-    div.masthead
-      h3.text-muted 大巴租赁
-      nav
-        ul.nav.nav-justified
-          li.nav-item
-            a.nav-link.active(href='#') 主页
-          li.nav-item
-            a.nav-link(href='#') 历史
-          li.nav-item
-            a.nav-link(href='#') 租赁 
-          li.nav-item
-            a.nav-link(href='#') 状态
+  div.content
+    h1 index page
 
-  footer.footer
-    p &copy; Company 2016
-
+block footer-content
   script(src='/javascripts/ie10-viewport-bug-workaround.js')
-  script(src='/node_modules/jquery/dist/jquery.min.js')
-  script(src='/node_modules/bootstrap/dist/js/bootstrap.js')
   script(src='/javascripts/index.js')
