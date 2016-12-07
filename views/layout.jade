@@ -17,18 +17,19 @@ html
         nav
           ul.nav.nav-justified
             li.nav-item
-              a.nav-link(href='/') 主页
+              a.nav-link(name="index", href='/') 主页
             li.nav-item
-              a.nav-link(href='/history/testRenter') 历史
+              a.nav-link(name="history", href='/history') 历史
             li.nav-item
-              a.nav-link(href='/apply') 租赁 
+              a.nav-link(name="apply", href='/apply') 租赁 
             li.nav-item
-              a.nav-link(href='/status') 状态
+              a.nav-link(name="status", href='/status') 状态
       block content
       footer.footer
         p &copy; Company 2016
 
     script(src='/node_modules/jquery/dist/jquery.min.js')
+    //- script(src='/node_modules/jquery-dateformat/dist/jquery-dateFormat.min.js')
     script(src='/node_modules/bootstrap/dist/js/bootstrap.min.js')
     script(src='/javascripts/common.js')
     block footer-content
