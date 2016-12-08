@@ -1,0 +1,20 @@
+{
+  "name": "carrental",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Alexander Li <alexander.li@ef.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/alex123bob/carrental",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43"
+  }
+}

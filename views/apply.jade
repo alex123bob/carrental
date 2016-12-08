@@ -1,4 +1,53 @@
 extends layout
 
+block head
+    link(rel='stylesheet', href='/stylesheets/apply.css')
+    link(rel='stylesheet', href='/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')
+
 block content
-    h1 this is application page
+    form.form-horizontal.application-form
+        div.form-group
+            label(for="depa").col-sm-2.control-label 用车部门
+            div.col-sm-8
+                input(type="text", placeholder="用车部门").form-control#depa
+        div.form-group
+            label(for="renter").col-sm-2.control-label 用车人
+            div.col-sm-8
+                input(type="text", placeholder="用车人").form-control#renter
+        div.form-group
+            label(for="contact").col-sm-2.control-label 联系电话
+            div.col-sm-8
+                input(type="text", placeholder="联系电话").form-control#contact
+        div.form-group
+            label(for="headcount").col-sm-2.control-label 出行人数
+            div.col-sm-8
+                select().form-control#headcount
+                    - for (var i = 0; i < 30; i++) {
+                        option= i+1
+                    - }
+        div.form-group
+            label.col-sm-2.control-label 用车时间
+            div.col-sm-8.input-group.date#startTime
+                input(type="text", readonly).form-control
+                div.input-group-addon
+                    span.glyphicon.glyphicon-calendar
+        div.form-group
+            label.col-sm-2.control-label 返回时间
+            div.col-sm-8.input-group.date#endTime
+                input(type="text", readonly).form-control
+                div.input-group-addon
+                    span.glyphicon.glyphicon-calendar
+        div.form-group
+            h4.col-sm-2 工作内容
+        div.form-group
+            div.checkbox.col-sm-10
+                label
+                    input(type="checkbox", value="")
+                    1、侦查、办案、警卫、巡逻等执法执勤工作；
+
+
+            
+block footer-content
+    script(src='/javascripts/apply.js')
+    script(src='bower_components/moment/min/moment.min.js')
+    script(src='/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
