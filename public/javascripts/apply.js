@@ -7,4 +7,15 @@ $(function () {
     };
     $('#startTime').datetimepicker(dtCfg);
     $('#endTime').datetimepicker(dtCfg);
+
+    $('input[type="radio"][name="scope"]').change(function (ev){
+        if ($(this).val() == '0') {
+            $('.insideCity').removeAttr('disabled');
+            $('.outsideCity').attr('disabled', 'true');
+        }
+        else if ($(this).val() == '1') {
+            $('.outsideCity').removeAttr('disabled');
+            $('.insideCity').attr('disabled', 'true');
+        }
+    });
 });

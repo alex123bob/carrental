@@ -38,13 +38,69 @@ block content
                 div.input-group-addon
                     span.glyphicon.glyphicon-calendar
         div.form-group
-            h4.col-sm-2 工作内容
+            label.col-sm-2.control-label 工作内容
+        each content in workingContent
+            div.form-group
+                label.col-sm-1.control-label
+                div.checkbox.col-sm-8
+                    label
+                        input(type="checkbox", value="#{content}")
+                        span= content
         div.form-group
-            div.checkbox.col-sm-10
+            label.col-sm-2.control-label 用车范围
+        div.form-group
+            label.col-sm-1.control-label
+            div.radio.col-sm-8
                 label
-                    input(type="checkbox", value="")
-                    1、侦查、办案、警卫、巡逻等执法执勤工作；
-
+                    input(type="radio", name="scope", value="0")
+                    span 市内
+        fieldset(disabled).insideCity
+            div.form-group
+                label.col-sm-2.control-label 地点
+                div.col-sm-8
+                    input(type="text", placeholder="市内具体地址").form-control#internalAddr
+        div.form-group
+            label.col-sm-1.control-label
+            div.radio.col-sm-8
+                label
+                    input(type="radio", name="scope", value="1")
+                    span 市外
+        fieldset(disabled).outsideCity
+            div.form-group
+                label.col-sm-2.control-label 地点
+                div.col-sm-8
+                    input(type="text", placeholder="市外具体地址").form-control#externalAddr
+        div.form-group
+            label.col-sm-2.control-label 车管员审核
+        div.form-group
+            label.col-sm-1.control-label
+            label.radio-inline.col-sm-2
+                input(type="radio", name="adminApproval", value="0")
+                不同意
+            label.radio-inline.col-sm-2
+                input(type="radio", name="adminApproval", value="1")
+                同意
+        div.form-group
+            label(for="rentedCar").col-sm-2.control-label 拟派车辆
+            div.col-sm-8
+                input(type="text", placeholder="拟派车辆").form-control#rentedCar
+        div.form-group
+            label.col-sm-2.control-label 分管领导审批
+        div.form-group
+            label.col-sm-1.control-label
+            label.radio-inline.col-sm-2
+                input(type="radio", name="leaderApproval", value="0")
+                不同意
+            label.radio-inline.col-sm-2
+                input(type="radio", name="leaderApproval", value="1")
+                同意
+        div.form-group
+            label(for="remark").col-sm-2.control-label 备注信息
+            div.col-sm-8
+                input(type="text", placeholder="请填写备注信息").form-control#remark
+        div.form-group
+            label.col-sm-1.control-label
+            button(type="button").btn.btn-primary 提交
 
             
 block footer-content
