@@ -4,10 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
+var allRouter = require('./routes/all');
 var indexRouter = require('./routes/index');
 var historyRouter = require('./routes/history');
 var applyRouter = require('./routes/apply');
+var joinRouter = require('./routes/join');
 
 var app = express();
 
@@ -21,13 +24,21 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: 'hangzhou_police_agency',
+  proxy: true,
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 app.use('/bower_components', express.static(path.join(__dirname, 'bower_components')));
 
+app.use(allRouter);
 app.use('/', indexRouter);
 app.use('/history', historyRouter);
 app.use('/apply', applyRouter);
+app.use('/join', joinRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
