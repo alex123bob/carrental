@@ -8,8 +8,8 @@ router.post('/', function(req, res, next) {
       body = req.body,
       session = req.session,
       sql = "select u.name as uname, u.level as level, u.pwd as pwd, u.realname as realname,\
-             u.contact as contact, d.name as dname \
-             from user u left join depa d on u.depa = d.id where u.name = '" + body.name + "' \
+             u.contact as contact, d.id as did, d.name as dname \
+             from user u left join depa d on u.depa = d.id and u.isDeleted = 'false' where u.name = '" + body.name + "' \
              and u.pwd = '" + body.pwd + "'";
 
   conn.getConnection(function (err, connection) {
@@ -24,6 +24,7 @@ router.post('/', function(req, res, next) {
             session.pwd = rows[0].pwd;
             session.realname = rows[0].realname;
             session.depa = rows[0].dname;
+            session.depaId = rows[0].did;
             res.status(200).json({
               status: 'successful'
             });

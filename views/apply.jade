@@ -9,7 +9,12 @@ block content
         div.form-group
             label(for="depa").col-sm-2.control-label 用车部门
             div.col-sm-8
-                input(type="text", placeholder="用车部门").form-control#depa
+                select.form-control#depa
+                    - for (var i = 0; i < depas.length; i++)
+                        if depas[i].id ==session.depaId
+                            option(depaId=depas[i].id, selected)= depas[i].name   
+                        else
+                            option(depaId=depas[i].id)= depas[i].name
         div.form-group
             label(for="renter").col-sm-2.control-label 用车人
             div.col-sm-8
@@ -22,9 +27,8 @@ block content
             label(for="headcount").col-sm-2.control-label 出行人数
             div.col-sm-8
                 select().form-control#headcount
-                    - for (var i = 0; i < 30; i++) {
+                    - for (var i = 0; i < 30; i++)
                         option= i+1
-                    - }
         div.form-group
             label.col-sm-2.control-label 用车时间
             div.col-sm-8.input-group.date#startTime
