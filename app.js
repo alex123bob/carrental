@@ -39,7 +39,7 @@ app.use('/login', loginRouter);
 app.use('/join', joinRouter);
 // for authentication
 app.use(auth);
-app.use('/index', indexRouter);
+app.use('/', indexRouter);
 app.use('/history', historyRouter);
 app.use('/apply', applyRouter);
 
