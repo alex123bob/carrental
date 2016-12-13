@@ -1,5 +1,6 @@
 $(function (){
-    $('.btn').on('click', function (){
+    $('.btn').on('click', function (ev){
+        ev.preventDefault();
         $.ajax({
             method: 'POST',
             url: '/join',
