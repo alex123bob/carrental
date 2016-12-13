@@ -3,7 +3,8 @@
 const
     express = require('express'),
     router = express.Router(),
-    conn = require('../libs/pool');
+    conn = require('../libs/pool'),
+    dateformat = require('dateformat');
 
 router.get('/', function (req, res){
     let session = req.session,
@@ -31,6 +32,10 @@ router.get('/', function (req, res){
             });
         });
     });
+});
+
+router.put('/', function (req, res){
+    console.log(req.body);
 });
 
 module.exports = router;

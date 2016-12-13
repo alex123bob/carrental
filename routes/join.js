@@ -25,6 +25,7 @@ router.post('/', function(req, res, next) {
             session.realname = rows[0].realname;
             session.depa = rows[0].dname;
             session.depaId = rows[0].did;
+            session.contact = rows[0].contact;
             res.status(200).json({
               status: 'successful'
             });
