@@ -16,4 +16,21 @@ $(function (){
             $(this).removeClass('active');
         }
     });
+
+    // for logout request
+    $('#logout').on('click', function (ev){
+        var btnId = confirm('确定要注销吗？');
+        if (btnId == true) {
+            $.ajax({
+                url: '/logout',
+                method: 'POST',
+                dataType: 'json'
+            })
+            .done(function (data, status, xhr){
+                if (status == 'success') {
+                    location.href = '/login';
+                }
+            });
+        }
+    });
 });

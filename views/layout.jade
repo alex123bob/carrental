@@ -26,7 +26,11 @@ html
               a.nav-link(name="status", href='/status') 状态
       block content
       footer.footer
-        p &copy; Company 2016
+        p 
+          span &copy; Company 2016
+          span= ' 用户: '+session.realname
+          span= ' 部门: '+session.depa+' '
+          a(href="javascript:void(0)")#logout 注销
 
     script(src='/node_modules/jquery/dist/jquery.min.js')
     //- script(src='/node_modules/jquery-dateformat/dist/jquery-dateFormat.min.js')

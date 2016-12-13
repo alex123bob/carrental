@@ -6,6 +6,7 @@ const
     conn = require('../libs/pool');
 
 router.get('/', function (req, res){
+    var session = req.session;
     res.render('apply', {
         title: '汽车租赁',
         workingContent: [
@@ -17,7 +18,8 @@ router.get('/', function (req, res){
             '6、重要公务活动或紧急公务；',
             '7、运送机要文件和涉密载体，以及因伤病紧急送医；',
             '8、经单位主要领导批准的其他特殊情况；'
-        ]
+        ],
+        session: session
     });
 });
 

@@ -7,7 +7,10 @@ router.post('/', function(req, res, next) {
   let
       body = req.body,
       session = req.session,
-      sql = "select * from user where name = '" + body.name + "' and pwd = '" + body.pwd + "'";
+      sql = "select u.name as uname, u.level as level, u.pwd as pwd, u.realname as realname,\
+             u.contact as contact, d.name as dname \
+             from user u left join depa d on u.depa = d.id where u.name = '" + body.name + "' \
+             and u.pwd = '" + body.pwd + "'";
 
   conn.getConnection(function (err, connection) {
       conn.query(sql, (err, rows, fields) => {
@@ -17,8 +20,10 @@ router.post('/', function(req, res, next) {
           }
           connection.release();
           if (rows.length > 0) {
-            session.name = body.name;
-            session.pwd = body.pwd;
+            session.name = rows[0].uname;
+            session.pwd = rows[0].pwd;
+            session.realname = rows[0].realname;
+            session.depa = rows[0].dname;
             res.status(200).json({
               status: 'successful'
             });

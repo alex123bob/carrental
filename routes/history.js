@@ -9,7 +9,8 @@ const
 router.get('/', function (req, res){
     let
         params = req.params,
-        sql = "select * from application ";
+        sql = "select * from application ",
+        session = req.session;
 
     conn.getConnection(function (err, connection) {
         conn.query(sql, (err, rows, fields) => {
@@ -25,7 +26,8 @@ router.get('/', function (req, res){
             });
             res.render('history', {
                 title: '租车纪录',
-                recs: rows 
+                recs: rows ,
+                session: session
             });
             connection.release();
         });
