@@ -19,10 +19,10 @@ router.get('/', function (req, res){
                 return;
             }
             rows.forEach(function (row){
-                let formatStr = 'yyyy-mm-dd';
+                let formatStr = 'yyyy-mm-dd HH:MM:ss';
                 row.createTime = dateFormat(row.createTime, formatStr);
-                row.startTime = dateFormat(row.startTime, formatStr);
-                row.endTime = dateFormat(row.endTime, formatStr);
+                row.startTime = (row.startTime.constructor === Date ? dateFormat(row.startTime, formatStr) : '');
+                row.endTime = (row.startTime.constructor === Date ? dateFormat(row.endTime, formatStr) : '');
             });
             res.render('history', {
                 title: '租车纪录',

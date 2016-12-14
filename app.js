@@ -47,6 +47,14 @@ app.use('/status', statusRouter);
 app.use('/apply', applyRouter);
 app.use('/logout', logoutRouter);
 
+// fix favicon request 500 error.
+app.get('/favicon.ico', function(req, res) {
+    res.status(200).json({
+      status: 'successful',
+      errMsg: ''
+    });
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
