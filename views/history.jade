@@ -8,6 +8,10 @@ block content
                 th 租用人员
                 th 用车时间
                 th 返回时间
+                th 用车范围
+                th 详细地点
+                th 出行人数
+                th 联系电话
                 th 创建时间
                 th 申请状态
         each rec in recs
@@ -17,5 +21,9 @@ block content
                     td #{rec.renterRealname}
                     td #{rec.startTime}
                     td #{rec.endTime}
+                    td #{rec.scopeRealname}
+                    td #{rec.address}
+                    td #{rec.headcount}
+                    td #{rec.contact}
                     td #{rec.createTime}
                     td #{rec.status}
