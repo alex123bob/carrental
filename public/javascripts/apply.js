@@ -1,7 +1,7 @@
 $(function () {
     // initialize datetimepicker for time selection.
     var dtCfg = {
-        format: 'YYYY-MM-DD HH:mm:SS',
+        format: 'YYYY-MM-DD hh:mm:ss',
         // showClear: true,
         showClose: true,
         ignoreReadonly: true
