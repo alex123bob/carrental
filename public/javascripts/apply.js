@@ -13,11 +13,11 @@ $(function () {
     $('input[type="radio"][name="scope"]').change(function (ev){
         if ($(this).val() == '0') {
             $('.insideCity').removeAttr('disabled');
-            $('.outsideCity').attr('disabled', 'true');
+            $('.outsideCity').attr('disabled', 'true').find('input').val('');
         }
         else if ($(this).val() == '1') {
             $('.outsideCity').removeAttr('disabled');
-            $('.insideCity').attr('disabled', 'true');
+            $('.insideCity').attr('disabled', 'true').find('input').val('');
         }
     });
 
@@ -30,11 +30,12 @@ $(function () {
             $headcount = $('#headcount'),
             $startTime = $('#startTime'),
             $endTime = $('#endTime'),
-            $workContent = $('input[type="checkbox"]'),
-            $scope = $('input[type="radio"]'),
+            $workContent = $('input[type="checkbox"]:checked'),
+            $scope = $('input[type="radio"]:checked'),
             $internalAddr = $('#internalAddr'),
             $externalAddr = $('#externalAddr'),
             $remark = $('#remark'),
+            workContent = [],
             isEmpty = false,
             isTicked = false, // for checkbox
             isChecked = false; // for radio
@@ -66,18 +67,17 @@ $(function () {
                 $formGroup.removeClass('has-error');
             }
         });
-        $workContent.each(function (index, chk){
-            var $chkItem = $(chk);
-            if ($chkItem.is(':checked')) {
-                isTicked = true;
-                return false;
-            }
-        });
-        console.log(isEmpty, isTicked, isChecked);
+        if ($workContent.length > 0) {
+            $workContent.each(function (index, chk){
+                workContent.push($(chk).attr('key'));
+            });
+            workContent = workContent.join(',');
+            isTicked = true;
+        }
         if (!isEmpty && isTicked && isChecked) {
             $.ajax({
                 url: '/apply',
-                method: 'PUT',
+                method: 'POST',
                 data: {
                     depa: $depa.find('option:selected').attr('depaId'),
                     renter: $renter.attr('renter'),
@@ -85,12 +85,21 @@ $(function () {
                     headcount: $headcount.find('option:selected').val(),
                     startTime: $startTime.find('input').val(),
                     endTime: $endTime.find('input').val(),
-                    workContent: ''
+                    workContent: workContent,
+                    scope: $scope.val(),
+                    address: $internalAddr.is(':disabled') ? $externalAddr.val() : $internalAddr.val(),
+                    status: 0,
+                    remark: $remark.val()
                 },
                 dataType: 'json'
             })
             .done(function (data, status, xhr){
-
+                if (status == 'success') {
+                    if (data.status == 'successful') {
+                        alert('申请成功！');
+                        location.href = '/history';
+                    }
+                }
             });
         }
         else {

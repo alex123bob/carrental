@@ -48,8 +48,8 @@ block content
                 label.col-sm-1.control-label
                 div.checkbox.col-sm-8
                     label
-                        input(type="checkbox", value=content)
-                        span= content
+                        input(type="checkbox", value="#{content.val}", key="#{content.key}")
+                        span= content.val
         div.form-group
             label.col-sm-2.control-label 用车范围
         div.form-group

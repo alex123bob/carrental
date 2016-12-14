@@ -8,6 +8,7 @@ var session = require('express-session');
 var auth = require('./libs/auth');
 
 var indexRouter = require('./routes/index');
+var statusRouter = require('./routes/status');
 var historyRouter = require('./routes/history');
 var applyRouter = require('./routes/apply');
 var joinRouter = require('./routes/join');
@@ -42,6 +43,7 @@ app.use('/join', joinRouter);
 app.use(auth);
 app.use('/', indexRouter);
 app.use('/history', historyRouter);
+app.use('/status', statusRouter);
 app.use('/apply', applyRouter);
 app.use('/logout', logoutRouter);
 
