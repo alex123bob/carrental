@@ -4,7 +4,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var session = req.session;
-  res.render('index', { 
+  res.render('status', { 
     title: '状态',
     session: session
   });
