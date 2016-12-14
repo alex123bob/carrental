@@ -9,8 +9,11 @@ const
 router.get('/', function (req, res){
     let
         params = req.params,
-        sql = "select * from application ",
-        session = req.session;
+        session = req.session,
+        sql = "select a.*, d.name as dname, d.id as did, u.name as uname, u.realname as renterRealname, u.level from \
+                 application a left join depa d on a.depa = d.id left join user u on a.renter = u.name where a.renter = '" 
+                 + session.name + "' ";
+        console.log(sql);
 
     conn.getConnection(function (err, connection) {
         conn.query(sql, (err, rows, fields) => {
@@ -22,7 +25,7 @@ router.get('/', function (req, res){
                 let formatStr = 'yyyy-mm-dd HH:MM:ss';
                 row.createTime = dateFormat(row.createTime, formatStr);
                 row.startTime = (row.startTime.constructor === Date ? dateFormat(row.startTime, formatStr) : '');
-                row.endTime = (row.startTime.constructor === Date ? dateFormat(row.endTime, formatStr) : '');
+                row.endTime = (row.endTime.constructor === Date ? dateFormat(row.endTime, formatStr) : '');
             });
             res.render('history', {
                 title: '租车纪录',

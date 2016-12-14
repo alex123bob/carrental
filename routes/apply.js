@@ -17,6 +17,7 @@ router.get('/', function (req, res){
             }
             res.render('apply', {
                 title: '公车申请',
+                checkMode: false,
                 workingContent: [
                     { key: 1, val: '1、侦查、办案、警卫、巡逻等执法执勤工作；'},
                     { key: 2, val: '2、执法执纪检查和调研；'},

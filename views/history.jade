@@ -1,17 +1,21 @@
 extends layout
 
 block content
-    table.table.table-striped.table-hover
+    table.table.table-hover
         thead
             tr
                 th 用车部门
                 th 租用人员
+                th 用车时间
+                th 返回时间
                 th 创建时间
                 th 申请状态
         each rec in recs
             tbody
-                tr
-                    td #{rec.depa}
-                    td #{rec.renter}
+                tr.info
+                    td #{rec.dname}
+                    td #{rec.renterRealname}
+                    td #{rec.startTime}
+                    td #{rec.endTime}
                     td #{rec.createTime}
                     td #{rec.status}
