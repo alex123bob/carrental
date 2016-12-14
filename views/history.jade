@@ -14,10 +14,12 @@ block content
                 th 联系电话
                 th 创建时间
                 th 申请状态
+                th 审核
         each rec in recs
             tbody
                 tr.info
-                    td #{rec.dname}
+                    td
+                        a(href="/apply/view/" + "#{rec.id}") #{rec.dname}
                     td #{rec.renterRealname}
                     td #{rec.startTime}
                     td #{rec.endTime}
@@ -27,3 +29,7 @@ block content
                     td #{rec.contact}
                     td #{rec.createTime}
                     td #{rec.status}
+                    td
+                        input(type="button", value="审核", applicationId=rec.id).btn.btn-info.btn-xs.check
+block footer-content
+    script(src="/javascripts/history.js")
