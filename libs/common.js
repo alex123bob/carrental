@@ -13,6 +13,9 @@ let common = {
             case 2:
                 statusRealname = '已审核';
                 break;
+            case -1:
+                statusRealname = '不通过';
+                break;
             default:
                 statusRealname = '';
                 break;

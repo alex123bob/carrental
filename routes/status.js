@@ -87,8 +87,8 @@ router.post('/check', (req, res, next) => {
             sql,
             replacer,
             index = 0;
-        if (drt == '-1' && status == 0) {
-            newStatus = originalStatus;
+        if (drt == '-1') {
+            newStatus = '-1';
         }
         else {
             newStatus = eval(originalStatus + drt);

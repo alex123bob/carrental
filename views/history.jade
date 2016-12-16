@@ -17,7 +17,7 @@ block content
                 th 审核
         each rec in recs
             tbody
-                tr(class=(rec.status==2?'success':(rec.status==1?'info':'')))
+                tr(class=(rec.status==2?'success':(rec.status==1?'info':(rec.status==-1?'danger':''))))
                     td
                         a(href="/apply/view/" + "#{rec.id}") #{rec.dname}
                     td #{rec.renterRealname}

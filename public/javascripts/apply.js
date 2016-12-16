@@ -112,7 +112,7 @@ $(function () {
             $rentedCar = $('#rentedCar'),
             $remark = $('#adminCheckRemark'),
             $formGroup;
-        if ($rentedCar.val().trim().length == 0) {
+        if ($radios.eq(1).is(':checked') && $rentedCar.val().trim().length == 0) {
             $formGroup = $rentedCar.closest('.form-group');
             !$formGroup.hasClass('has-error') && $formGroup.addClass('has-error');
             return false;
@@ -131,12 +131,13 @@ $(function () {
             $.ajax({
                 url: '/status/check',
                 method: 'POST',
-                data: {
+                data: $.extend({
                     applicationId: $(this).attr('applicationId'),
                     drt: $radios.eq(0).is(':checked') ? '-1' : '+1',
-                    carId: $rentedCar.val(),
                     remark: $remark.val()
-                },
+                }, $radios.eq(1).is(':checked') ? {
+                    carId: $rentedCar.val()
+                } : {}),
                 dataType: 'json'
             })
             .done(function (data, status, xhr){
