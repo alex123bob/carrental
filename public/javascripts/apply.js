@@ -22,7 +22,7 @@ $(function () {
     });
 
     // submit logic operation.
-    $('.btn').on('click', function (ev){
+    $('.applySubmit').on('click', function (ev){
         var
             $depa = $('#depa'),
             $renter = $('#renter'),
@@ -41,11 +41,11 @@ $(function () {
             isChecked = false; // for radio
         $('.application-form input:not([type="radio"]):not([type="checkbox"])').each(function (index, input){
             var $inputItem = $(input),
-                $formGroup = $inputItem.closest('.form-group');
+                $formGroup = $inputItem.closest('.form-group');;
             if ($inputItem.attr('id') == 'internalAddr' || $inputItem.attr('id') == 'externalAddr') {
                 var $city = $inputItem.closest('fieldset');
-                if ($city.prev('.form-group').find('[name="scope"]').is(':checked')) {
-                    if ($inputItem.val().trim() == 0) {
+                if ($city.prev('.form-group').find('[name="scope"]').is(':checked')) {;
+                    if ($inputItem.val().trim().length == 0) {
                         !$formGroup.hasClass('has-error') && $formGroup.addClass('has-error');
                         isEmpty = true;
                     }
@@ -59,7 +59,7 @@ $(function () {
                 }
                 return;
             }
-            if ($inputItem.val().trim() == 0) {
+            if ($inputItem.val().trim().length == 0) {
                 !$formGroup.hasClass('has-error') && $formGroup.addClass('has-error');
                 isEmpty = true;
             }
@@ -104,6 +104,84 @@ $(function () {
         }
         else {
             // do nothing. form is not completed.
+        }
+    });
+
+    $('.adminCheck').on('click', function (ev){
+        var $radios = $('[name="adminApproval"]'),
+            $rentedCar = $('#rentedCar'),
+            $remark = $('#adminCheckRemark'),
+            $formGroup;
+        if ($rentedCar.val().trim().length == 0) {
+            $formGroup = $rentedCar.closest('.form-group');
+            !$formGroup.hasClass('has-error') && $formGroup.addClass('has-error');
+            return false;
+        }
+        else if ($remark.val().trim().length == 0) {
+            $rentedCar.closest('.form-group').removeClass('has-error');
+            $formGroup = $remark.closest('.form-group');
+            !$formGroup.hasClass('has-error') && $formGroup.addClass('has-error');
+            return false;
+        }
+        else if (!$('[name="adminApproval"]').is(':checked')) {
+            alert('请选择审核意见');
+            return false;
+        }
+        else {
+            $.ajax({
+                url: '/status/check',
+                method: 'POST',
+                data: {
+                    applicationId: $(this).attr('applicationId'),
+                    drt: $radios.eq(0).is(':checked') ? '-1' : '+1',
+                    carId: $rentedCar.val(),
+                    remark: $remark.val()
+                },
+                dataType: 'json'
+            })
+            .done(function (data, status, xhr){
+                if (status == 'success') {
+                    if (data.status == 'successful') {
+                        alert('车管员审核成功！');
+                        location.href = '/history';
+                    }
+                }
+            });
+        }
+    });
+
+    $('.directorCheck').on('click', function (ev){
+        var $radios = $('[name="directorApproval"]'),
+            $remark = $('#directorCheckRemark'),
+            $formGroup;
+        if ($remark.val().trim().length == 0) {
+            $formGroup = $remark.closest('.form-group');
+            !$formGroup.hasClass('has-error') && $formGroup.addClass('has-error');
+            return false;
+        }
+        else if (!$('[name="directorApproval"]').is(':checked')) {
+            alert('请选择审核意见');
+            return false;
+        }
+        else {
+            $.ajax({
+                url: '/status/check',
+                method: 'POST',
+                data: {
+                    applicationId: $(this).attr('applicationId'),
+                    drt: $radios.eq(0).is(':checked') ? '-1' : '+1',
+                    remark: $remark.val()
+                },
+                dataType: 'json'
+            })
+            .done(function (data, status, xhr){
+                if (status == 'success') {
+                    if (data.status == 'successful') {
+                        alert('领导审核成功！');
+                        location.href = '/history';
+                    }
+                }
+            });
         }
     });
 });

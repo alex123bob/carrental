@@ -17,7 +17,7 @@ block content
                 th 审核
         each rec in recs
             tbody
-                tr.info
+                tr(class=(rec.status==2?'success':(rec.status==1?'info':'')))
                     td
                         a(href="/apply/view/" + "#{rec.id}") #{rec.dname}
                     td #{rec.renterRealname}
@@ -28,8 +28,9 @@ block content
                     td #{rec.headcount}
                     td #{rec.contact}
                     td #{rec.createTime}
-                    td #{rec.status}
+                    td #{rec.statusRealname}
                     td
-                        input(type="button", value="审核", applicationId=rec.id).btn.btn-info.btn-xs.check
+                        - if (rec.needCheck())
+                            input(type="button", value="审核", applicationId=rec.id).btn.btn-info.btn-xs.check
 block footer-content
     script(src="/javascripts/history.js")

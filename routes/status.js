@@ -4,6 +4,7 @@ const
     express = require('express'),
     router = express.Router(),
     conn = require('../libs/pool'),
+    user = require('../libs/user'),
     dateformat = require('dateformat'),
     workingContent = [
         { key: 1, val: '1、侦查、办案、警卫、巡逻等执法执勤工作；' },
@@ -14,7 +15,8 @@ const
         { key: 6, val: '6、重要公务活动或紧急公务；' },
         { key: 7, val: '7、运送机要文件和涉密载体，以及因伤病紧急送医；' },
         { key: 8, val: '8、经单位主要领导批准的其他特殊情况；' }
-    ];
+    ],
+    Q = require('Q');
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -36,12 +38,13 @@ router.get('/:applicationId', (req, res, next) => {
       conn.query(sql, (err, rows, fields) => {
           if (err) {
               console.log(err.stack);
+              return;
           }
-          var application = rows[0];
+          let application = rows[0];
           application.startTime = dateformat(application.startTime, 'yyyy-mm-dd HH:MM:ss');
           application.endTime = dateformat(application.endTime, 'yyyy-mm-dd HH:MM:ss');
           res.render('apply', {
-              title: '申请详情',
+              title: '申请审核',
               mode: 'check', // apply, view, check
               workingContent: workingContent,
               session: session,
@@ -50,6 +53,81 @@ router.get('/:applicationId', (req, res, next) => {
           connection.release();
       });
   });
+});
+
+router.post('/check', (req, res, next) => {
+    let
+        session = req.session,
+        params = req.body,
+        deferred = Q.defer(),
+        sql = "select status from application where id = '" + params.applicationId + "'";
+
+    conn.getConnection((err, connection) => {
+        conn.query(sql, (err, rows, fields) => {
+            if (err) {
+                console.log(err.stack);
+                return;
+            }
+            deferred.resolve([err, rows, fields, params]);
+            connection.release();
+        });
+    });
+
+    deferred.promise.then((arr) => {
+        let 
+            status = arr[1][0]['status'],
+            params = arr[3],
+            originalStatus = status,
+            newStatus,
+            drt = params.drt,
+            checker,
+            carId = params.carId,
+            remark = params.remark,
+            applicationId = params.applicationId,
+            sql,
+            replacer,
+            index = 0;
+        if (drt == '-1' && status == 0) {
+            newStatus = originalStatus;
+        }
+        else {
+            newStatus = eval(originalStatus + drt);
+        }
+        checker = session.name;
+        replacer = [applicationId, checker, originalStatus, newStatus, drt, remark];
+        sql = "insert into application_records(applicationId, checker, originalStatus, newStatus, drt, remark) values (?, '?', '?', '?', '?', '?'); ";
+        sql = sql.replace(/\?/gi, (match, offset, str) => {
+            return replacer[index++];
+        });
+
+        conn.getConnection((err, connection) => {
+            conn.query(sql, (err, rows, fields) => {
+                if (err) {
+                    console.log(err.stack);
+                    return;
+                }
+                if (carId) {
+                    sql = "update application set status = " + newStatus + ", carId = '" + carId + "' where id = " + applicationId + "; ";
+                }
+                else {
+                    sql = "update application set status = " + newStatus + " where id = " + applicationId + "; ";
+                }
+                conn.query(sql, (err, rows, fields) => {
+                    if (err) {
+                        console.log(err.stack);
+                        return;
+                    }
+                    res.status(200).json({
+                        status: 'successful',
+                        errMsg: ''
+                    });
+                    connection.release();
+                });
+            });
+        });
+
+    });
+    
 });
 
 module.exports = router;
