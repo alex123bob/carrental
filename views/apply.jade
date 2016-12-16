@@ -151,6 +151,25 @@ block content
                 label.col-sm-1.control-label
                 button(type="button", applicationId=application.id).directorCheck.btn.btn-primary 审核
 
+        - if (application_recs)
+            table.table.table-hover
+                thead
+                    tr
+                        th 审核人
+                        th 原状态
+                        th 新状态
+                        th 备注信息
+                        th 审核时间
+                each rec in application_recs
+                    tbody
+                        tr(class=(rec.drt=="+1"?"success":(rec.drt=="-1"?"danger":"")))
+                            td #{rec.checkerRealname}
+                            td #{rec.originalStatusRealname}
+                            td #{rec.newStatusRealname}
+                            td #{rec.remark}
+                            td #{rec.createTime}
+
+
             
 block footer-content
     script(src='/javascripts/apply.js')

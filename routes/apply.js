@@ -4,6 +4,7 @@ const
     express = require('express'),
     router = express.Router(),
     conn = require('../libs/pool'),
+    common = require('../libs/common'),
     dateformat = require('dateformat'),
     workingContent = [
         { key: 1, val: '1、侦查、办案、警卫、巡逻等执法执勤工作；' },
@@ -14,7 +15,8 @@ const
         { key: 6, val: '6、重要公务活动或紧急公务；' },
         { key: 7, val: '7、运送机要文件和涉密载体，以及因伤病紧急送医；' },
         { key: 8, val: '8、经单位主要领导批准的其他特殊情况；' }
-    ];
+    ],
+    Q = require('Q');
 
 router.get('/', (req, res) => {
     let session = req.session,
@@ -41,6 +43,7 @@ router.get('/view/:applicationId', (req, res) => {
     let 
         session = req.session,
         params = req.params,
+        deferred = Q.defer(),
         sql = "select a.*, d.name as dname from application a \
                  left join depa d on a.depa = d.id where a.isDeleted = 'false' \
                  and a.id = '" + params.applicationId + "'";
@@ -52,14 +55,34 @@ router.get('/view/:applicationId', (req, res) => {
             var application = rows[0];
             application.startTime = dateformat(application.startTime, 'yyyy-mm-dd HH:MM:ss');
             application.endTime = dateformat(application.endTime, 'yyyy-mm-dd HH:MM:ss');
-            res.render('apply', {
-                title: '申请详情',
-                mode: 'view', // apply, view, check
-                workingContent: workingContent,
-                session: session,
-                application: rows[0]
-            })
+            deferred.resolve(application);
         });
+    });
+
+    deferred.promise.then((application) => {
+        let sql = "select a.*, u.realname as checkerRealname from application_records a left join user u on a.checker = u.name where a.applicationId = '?' and a.isDeleted = 'false' ";
+        sql = sql.replace(/\?/, application.id);
+        conn.getConnection((err, connection) => {
+            conn.query(sql, (err, rows, fields) => {
+                if (err) {
+                    console.log(err.stack);
+                }
+                rows = rows.map(function (obj, index, self){
+                    obj.originalStatusRealname = common.statusRenderer(obj.originalStatus);
+                    obj.newStatusRealname = common.statusRenderer(obj.newStatus);
+                    obj.createTime = dateformat(obj.createTime, 'yyyy-mm-dd HH:MM:ss');
+                    return obj;
+                });
+                res.render('apply', {
+                    title: '申请详情',
+                    mode: 'view', // apply, view, check
+                    workingContent: workingContent,
+                    session: session,
+                    application: application,
+                    application_recs: rows
+                })
+            });
+        })
     });
 });
 
