@@ -111,9 +111,11 @@ block content
                     input(type="radio", name="adminApproval", value="1")
                     span 同意
             div.form-group
-                label(for="rentedCar").col-sm-2.control-label 拟派车辆
+                label(for="rentedCar", style="cursor: pointer;").col-sm-2.control-label.check-car-timetable 拟派车辆
                 div.col-sm-8
-                    input(type="text", placeholder="拟派车辆").form-control#rentedCar
+                    select.form-control#rentedCar
+                        - for (var i = 0; i < cars.length; i++)
+                            option(carId=cars[i].id)= cars[i].name
             div.form-group
                 label(for="adminCheckRemark").col-sm-2.control-label 审核意见
                 div.col-sm-8
@@ -170,7 +172,22 @@ block content
                             td #{rec.createTime}
 
 
-            
+        
+        div(tabIndex="-1", role="dialog", aria-labelledby="timetabletitle").modal.fade.cartimetable
+            div(role="document").modal-dialog
+                div.modal-content
+                    div.modal-header
+                        button(type="button", data-dismiss="modal", aria-label="Close").close
+                            span(aria-hidden="true") &times;
+                        h4.modal-title#timetabletitle 公车租赁时刻表
+                    div.modal-body
+                        div.row
+                            div.col-md-4 借车人
+                            div.col-md-4 开始时间
+                            div.col-md-4 结束时间
+                    div.modal-footer
+                        button(type="button", data-dismiss="modal").btn.btn-default 关闭
+
 block footer-content
     script(src='/javascripts/apply.js')
     script(src='/bower_components/moment/min/moment.min.js')

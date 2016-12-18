@@ -14,6 +14,7 @@ var applyRouter = require('./routes/apply');
 var joinRouter = require('./routes/join');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
+var carRouter = require('./routes/car');
 
 var app = express();
 
@@ -46,6 +47,7 @@ app.use('/history', historyRouter);
 app.use('/status', statusRouter);
 app.use('/apply', applyRouter);
 app.use('/logout', logoutRouter);
+app.use('/car', carRouter);
 
 // fix favicon request 500 error.
 app.get('/favicon.ico', function(req, res) {

@@ -112,7 +112,7 @@ $(function () {
             $rentedCar = $('#rentedCar'),
             $remark = $('#adminCheckRemark'),
             $formGroup;
-        if ($radios.eq(1).is(':checked') && $rentedCar.val().trim().length == 0) {
+        if ($radios.eq(1).is(':checked') && $rentedCar.find('option:selected').val().trim().length == 0) {
             $formGroup = $rentedCar.closest('.form-group');
             !$formGroup.hasClass('has-error') && $formGroup.addClass('has-error');
             return false;
@@ -136,7 +136,7 @@ $(function () {
                     drt: $radios.eq(0).is(':checked') ? '-1' : '+1',
                     remark: $remark.val()
                 }, $radios.eq(1).is(':checked') ? {
-                    carId: $rentedCar.val()
+                    carId: $rentedCar.find('option:selected').attr('carId')
                 } : {}),
                 dataType: 'json'
             })
@@ -184,5 +184,28 @@ $(function () {
                 }
             });
         }
+    });
+
+    $('.check-car-timetable').on('click', function (ev){
+        $.ajax({
+            url: '/car/timetable/' + $('#rentedCar').find('option:selected').attr('carId'),
+            method: 'GET',
+            params: {
+            },
+            dataType: 'json'
+        })
+        .done(function (data, status, xhr){
+            if (status == 'success') {
+                if (data.status == 'successful') {
+                    var recs = data.recs,
+                        $timetable = $('.cartimetable'),
+                        $body = $timetable.find('.modal-body');
+                    recs.forEach(function (rec, index, self){
+                        $body.append('<div class="row"><div class="col-md-4">' + rec["realname"] + '</div><div class="col-md-4">' + rec["startTime"] + '</div><div class="col-md-4">' + rec["endTime"] + '</div></div>');
+                    });
+                    $timetable.modal();
+                }
+            }
+        })
     });
 });

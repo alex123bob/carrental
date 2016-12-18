@@ -31,6 +31,7 @@ router.get('/:applicationId', (req, res, next) => {
   let
       session = req.session,
       params = req.params,
+      deferred = Q.defer(),
       sql = "select a.*, d.name as dname from application a \
               left join depa d on a.depa = d.id where a.isDeleted = 'false' \
               and a.id = '" + params.applicationId + "'";
@@ -40,18 +41,33 @@ router.get('/:applicationId', (req, res, next) => {
               console.log(err.stack);
               return;
           }
-          let application = rows[0];
-          application.startTime = dateformat(application.startTime, 'yyyy-mm-dd HH:MM:ss');
-          application.endTime = dateformat(application.endTime, 'yyyy-mm-dd HH:MM:ss');
-          res.render('apply', {
-              title: '申请审核',
-              mode: 'check', // apply, view, check
-              workingContent: workingContent,
-              session: session,
-              application: rows[0]
-          });
+          deferred.resolve([err, rows, fields, session]);
           connection.release();
       });
+  });
+
+  deferred.promise.then((arr) => {
+      let 
+        rows = arr[1],
+        session = arr[3],
+        application = rows[0],
+        sql = "select * from car where isDeleted = 'false'";
+
+        conn.getConnection((err, connection) => {
+            conn.query(sql, (err, rows,fields) => {
+                application.startTime = dateformat(application.startTime, 'yyyy-mm-dd HH:MM:ss');
+                application.endTime = dateformat(application.endTime, 'yyyy-mm-dd HH:MM:ss');
+                res.render('apply', {
+                    title: '申请审核',
+                    mode: 'check', // apply, view, check
+                    workingContent: workingContent,
+                    session: session,
+                    application: application,
+                    cars: rows
+                });
+                connection.release();
+            });
+        });
   });
 });
 
