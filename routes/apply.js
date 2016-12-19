@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/view/:applicationId', (req, res) => {
+router.get('/view/:applicationId', (req, res, next) => {
     let 
         session = req.session,
         params = req.params,
@@ -83,7 +83,8 @@ router.get('/view/:applicationId', (req, res) => {
                 })
             });
         })
-    });
+    })
+    .catch(next);
 });
 
 router.post('/', (req, res) => {

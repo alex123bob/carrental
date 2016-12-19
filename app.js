@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var auth = require('./libs/auth');
+var compression = require('compression');
 
 var indexRouter = require('./routes/index');
 var statusRouter = require('./routes/status');
@@ -23,7 +24,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,12 +52,12 @@ app.use('/logout', logoutRouter);
 app.use('/car', carRouter);
 
 // fix favicon request 500 error.
-app.get('/favicon.ico', function(req, res) {
-    res.status(200).json({
-      status: 'successful',
-      errMsg: ''
-    });
-});
+// app.get('/favicon.ico', function(req, res) {
+//     res.status(200).json({
+//       status: 'successful',
+//       errMsg: ''
+//     });
+// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

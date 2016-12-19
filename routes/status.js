@@ -68,7 +68,8 @@ router.get('/:applicationId', (req, res, next) => {
                 connection.release();
             });
         });
-  });
+  })
+  .catch(next);
 });
 
 router.post('/check', (req, res, next) => {
@@ -142,7 +143,8 @@ router.post('/check', (req, res, next) => {
             });
         });
 
-    });
+    })
+    .catch(next);
     
 });
 
