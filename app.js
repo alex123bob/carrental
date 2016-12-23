@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var auth = require('./libs/auth');
 var compression = require('compression');
+var redisClient = require('redis');
 
 var indexRouter = require('./routes/index');
 var statusRouter = require('./routes/status');
