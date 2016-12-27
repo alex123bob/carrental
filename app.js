@@ -7,7 +7,17 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var auth = require('./libs/auth');
 var compression = require('compression');
-var redisClient = require('redis');
+var needRedis;
+if (process.argv[2] == "redis") {
+  needRedis = true;
+}
+else {
+  needRedis = false;
+}
+if (needRedis) {
+  var redisStore = require('connect-redis')(session);
+  var redisClient = require('./libs/redisclient');
+}
 
 var indexRouter = require('./routes/index');
 var statusRouter = require('./routes/status');
@@ -31,11 +41,22 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
+app.use(session(needRedis ? {
   secret: 'hangzhou_police_agency',
   proxy: true,
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new redisStore({
+    host: 'localhost',
+    port: 6379,
+    client: redisClient,
+    ttl: 260
+  })
+} : {
+  secret: 'hangzhou_police_agency',
+  proxy: true,
+  resave: true,
+  saveUninitialized: true,
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
