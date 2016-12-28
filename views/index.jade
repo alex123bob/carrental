@@ -1,8 +1,28 @@
 extends layout
 
 block content
-  div.content
-    h1 index page
+    table.table.table-hover
+        thead
+            tr
+                th 序号
+                th 车牌号码
+                th 车辆类型
+                th 所属部门
+                th 厂牌类型
+                th 座位数
+                th 车辆使用状态
+                th 车辆申请时间
+                th 申请人
+                th 还车操作
+        each car, index in cars
+          tbody
+              tr
+                  td #{index+1}
+                  td #{car.name}
+                  td #{car.carType}
+                  td #{car.depaId}
+                  td #{car.brand}
+                  td #{car.seats}
 
 block footer-content
   script(src='/javascripts/ie10-viewport-bug-workaround.js')

@@ -50,7 +50,7 @@ app.use(session(needRedis ? {
     host: 'localhost',
     port: 6379,
     client: redisClient,
-    ttl: 260
+    ttl: 260 // this ttl means: if user doesn't do any operation in specified seconds, session will be expired
   })
 } : {
   secret: 'hangzhou_police_agency',
