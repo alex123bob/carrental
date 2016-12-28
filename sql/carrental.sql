@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2016 at 07:26 AM
+-- Generation Time: Dec 28, 2016 at 02:14 PM
 -- Server version: 5.6.32
--- PHP Version: 5.5.38
+-- PHP Version: 5.6.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -92,6 +92,9 @@ DROP TABLE IF EXISTS `car`;
 CREATE TABLE IF NOT EXISTS `car` (
   `id` int(200) NOT NULL,
   `name` varchar(200) NOT NULL COMMENT 'plate number of car',
+  `carType` varchar(100) DEFAULT NULL COMMENT 'the type of car, e.g. bus, truck, car.',
+  `depaId` int(10) NOT NULL COMMENT 'which bureau the car belongs to. here we classify car by bureau instead of department, all departments in the same bureau could rent cars of their own bureau.',
+  `brand` varchar(100) DEFAULT NULL COMMENT 'brand name, like Volkswagen, Audi, BMW',
   `seats` int(3) NOT NULL COMMENT 'how many seats in a car',
   `remark` varchar(100) DEFAULT NULL,
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -102,9 +105,9 @@ CREATE TABLE IF NOT EXISTS `car` (
 -- Dumping data for table `car`
 --
 
-INSERT INTO `car` (`id`, `name`, `seats`, `remark`, `createTime`, `isDeleted`) VALUES
-(1, '浙A00001', 5, '测试车辆', '2016-12-18 10:20:10', 'false'),
-(2, '浙A0002', 5, '测试2号车', '2016-12-18 10:24:13', 'false');
+INSERT INTO `car` (`id`, `name`, `carType`, `depaId`, `brand`, `seats`, `remark`, `createTime`, `isDeleted`) VALUES
+(1, '浙A00001', '小汽车', 9, '大众', 5, '测试车辆', '2016-12-18 10:20:10', 'false'),
+(2, '浙A0002', '轿车', 9, '奥迪', 5, '测试2号车', '2016-12-18 10:24:13', 'false');
 
 -- --------------------------------------------------------
 
@@ -119,21 +122,22 @@ CREATE TABLE IF NOT EXISTS `depa` (
   `parentId` int(200) NOT NULL COMMENT 'parent department id, -1 if that is the first level',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isDeleted` varchar(5) NOT NULL DEFAULT 'false'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `depa`
 --
 
 INSERT INTO `depa` (`id`, `name`, `parentId`, `createTime`, `isDeleted`) VALUES
-(1, '秘书科', -1, '2016-12-09 16:33:20', 'false'),
-(2, '科技管理科', -1, '2016-12-09 16:38:11', 'false'),
-(3, '安全技术防范管理科', -1, '2016-12-09 16:38:11', 'false'),
-(4, '通信勤务保障科', -1, '2016-12-09 16:38:11', 'false'),
-(5, '计算机应用管理科', -1, '2016-12-09 16:38:11', 'false'),
-(6, '系统运行服务科', -1, '2016-12-09 16:38:11', 'false'),
-(7, '网络与信息安全科', -1, '2016-12-09 16:38:11', 'false'),
-(8, '领导层', -1, '2016-12-09 17:52:58', 'false');
+(1, '秘书科', 9, '2016-12-09 16:33:20', 'false'),
+(2, '科技管理科', 9, '2016-12-09 16:38:11', 'false'),
+(3, '安全技术防范管理科', 9, '2016-12-09 16:38:11', 'false'),
+(4, '通信勤务保障科', 9, '2016-12-09 16:38:11', 'false'),
+(5, '计算机应用管理科', 9, '2016-12-09 16:38:11', 'false'),
+(6, '系统运行服务科', 9, '2016-12-09 16:38:11', 'false'),
+(7, '网络与信息安全科', 9, '2016-12-09 16:38:11', 'false'),
+(8, '领导层', 9, '2016-12-09 17:52:58', 'false'),
+(9, '科技信息化局', -1, '2016-12-28 21:10:33', 'false');
 
 -- --------------------------------------------------------
 
@@ -229,7 +233,7 @@ ALTER TABLE `car`
 -- AUTO_INCREMENT for table `depa`
 --
 ALTER TABLE `depa`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `user`
 --
