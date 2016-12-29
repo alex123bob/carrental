@@ -56,6 +56,7 @@ router.get('/view/:applicationId', (req, res, next) => {
             application.startTime = dateformat(application.startTime, 'yyyy-mm-dd HH:MM:ss');
             application.endTime = dateformat(application.endTime, 'yyyy-mm-dd HH:MM:ss');
             deferred.resolve(application);
+            connection.release();
         });
     });
 
@@ -80,7 +81,8 @@ router.get('/view/:applicationId', (req, res, next) => {
                     session: session,
                     application: application,
                     application_recs: rows
-                })
+                });
+                connection.release();
             });
         })
     })
