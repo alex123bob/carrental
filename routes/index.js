@@ -25,7 +25,8 @@ router.get('/', function (req, res, next) {
 
   deferred.promise.then((cars) => {
     let
-      deferredObj = Q.defer();
+      deferredObj = Q.defer(),
+      count = 0;
     cars.forEach((car, index, arr) => {
       let 
         sql = "select a.*, u.realname as renterRealname from application a left join user u on a.renter = u.name where a.isDeleted = 'false' and a.carId = " + car.id + " and a.status = 2";
@@ -33,7 +34,6 @@ router.get('/', function (req, res, next) {
       conn.getConnection((error, connection) => {
         conn.query(sql, (err, rows, fields) => {
           if (rows.length > 0) {
-            car.status = 1;
             car.statusRealname = '已使用';
             rows.forEach((row, index, self) => {
               row['createTime'] = dateformat(row['createTime'], 'yyyy-mm-dd HH:MM:ss');
@@ -44,10 +44,14 @@ router.get('/', function (req, res, next) {
           }
           else {
             car.returnBtn = false;
-            car.status = 0;
             car.statusRealname = '未使用';
           }
-          if (index == arr.length - 1) {
+          // the following conditional check, we can't use index as indicator,
+          // coz db connection and sql execution is asynchronous,
+          // the result is unexpected.
+          // we need a counter to exactly record every sql execution,
+          // then trigger corresponding Promise section.
+          if (++count == arr.length) {
             deferredObj.resolve(arr);
           }
           connection.release();
