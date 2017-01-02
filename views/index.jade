@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    table.table.table-hover
+    table.table.table-hover.car-status
         thead
             tr
                 th 序号
@@ -28,7 +28,7 @@ block content
                   td= car.application ? car.application[0].renterRealname : ''
                   td
                     - if (car.returnBtn)
-                        button(type="button").btn.btn-info.btn-xs 还车
+                        button(type="button", applicationId=car.id).btn.btn-info.btn-xs.returnCarBtn 还车
 
 block footer-content
   script(src='/javascripts/ie10-viewport-bug-workaround.js')
