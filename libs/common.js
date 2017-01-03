@@ -16,6 +16,9 @@ let common = {
             case -1:
                 statusRealname = '不通过';
                 break;
+            case 3:
+                statusRealname = '已还车';
+                break;
             default:
                 statusRealname = '';
                 break;

@@ -28,9 +28,9 @@ router.get('/', function (req, res, next) {
       deferredObj = Q.defer(),
       count = 0;
     cars.forEach((car, index, arr) => {
-      let 
+      let
         sql = "select a.*, u.realname as renterRealname from application a left join user u on a.renter = u.name where a.isDeleted = 'false' and a.carId = " + car.id + " and a.status = 2";
-      car.returnBtn = user.isAdmin({depa: session.depaId, level: session.level}) ? true : false;
+      car.returnBtn = user.isAdmin({ depa: session.depaId, level: session.level }) ? true : false;
       conn.getConnection((error, connection) => {
         conn.query(sql, (err, rows, fields) => {
           if (rows.length > 0) {
@@ -69,6 +69,26 @@ router.get('/', function (req, res, next) {
   })
     .catch(next);
 
+});
+
+router.post('/returnCar', (req, res, next) => {
+  let
+    applicationId = req.body.applicationId,
+    sql = "update `application` set status = 3 where id = " + applicationId;
+
+  conn.getConnection((err, connection) => {
+    conn.query(sql, (err, rows, fields) => {
+      if (err) {
+        console.log(err.stack);
+        return;
+      }
+      connection.release();
+      res.status(200).json({
+        status: 'successful',
+        errMsg: ''
+      });
+    });
+  });
 });
 
 module.exports = router;
