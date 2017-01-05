@@ -1,6 +1,13 @@
 extends layout
 
 block content
+    p
+    form.search-form.form-inline
+        div.form-group
+            label(for="carPlate") 车牌号
+            input(type="text").form-control#carPlate
+        button(type="button").btn.btn-default.btn-info.searchByPlate 查询
+        button(type="button").btn.btn-default.btn-warning.resetPlate 重置
     table.table.table-hover.car-status
         thead
             tr

@@ -27,4 +27,22 @@ $(function (){
             })
         }
     });
+    
+    $('.search-form').submit(function (ev){
+        ev.preventDefault();
+    });
+
+    $('.searchByPlate').click(function (ev){
+        var plate = $('#carPlate').val();
+        if (plate) {
+            location.href = '/plate-' + plate;
+        }
+        else {
+            alert('请输入车辆牌照!');
+        }
+    });
+
+    $('.resetPlate').click(function (ev){
+        location.href = '/';
+    });
 });
