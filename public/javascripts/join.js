@@ -13,7 +13,7 @@ $(function (){
         .done(function (data, status, xhr){
             if (status == 'success') {
                 if (data.status == 'successful') {
-                    location.href = '/history';
+                    location.href = '/';
                 }
                 else if (data.status == 'failed') {
                     alert(data.errMsg);
