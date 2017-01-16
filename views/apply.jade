@@ -21,7 +21,7 @@ block content
         div.form-group
             label(for="renter").col-sm-2.control-label 用车人
             div.col-sm-8
-                input(type="text", placeholder="用车人", readonly, renter="#{session.name}", value="#{session.realname}").form-control#renter
+                input(type="text", placeholder="用车人", readonly, renter=(mode=="apply"?session.name:application.renter), value=(mode=="apply"?session.realname:application.renterRealname)).form-control#renter
         div.form-group
             label(for="contact").col-sm-2.control-label 联系电话
             div.col-sm-8

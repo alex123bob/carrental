@@ -32,8 +32,8 @@ router.get('/:applicationId', (req, res, next) => {
       session = req.session,
       params = req.params,
       deferred = Q.defer(),
-      sql = "select a.*, d.name as dname from application a \
-              left join depa d on a.depa = d.id where a.isDeleted = 'false' \
+      sql = "select a.*, u.realname as renterRealname, d.name as dname from application a \
+              left join depa d on a.depa = d.id left join user u on a.renter = u.name where a.isDeleted = 'false' \
               and a.id = '" + params.applicationId + "'";
   conn.getConnection((err, connection) => {
       conn.query(sql, (err, rows, fields) => {
