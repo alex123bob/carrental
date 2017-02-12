@@ -25,7 +25,7 @@ block content
                 th 还车操作
         each car, index in cars
           tbody
-              tr(data-toggle="tooltip", data-animation="true", data-html="true", data-placement="top", title="车辆类型:" + car.carType + "<br />厂牌类型:" + car.brand + "<br />申请时间:" + (car.application ? car.application[0].createTime : '') )
+              tr(data-toggle="tooltip", data-animation="true", data-html="true", data-placement="top", title="车辆类型:" + car.carType + "<br />厂牌类型:" + car.brand + (car.application ? ("<br />申请时间:" + car.application[0].createTime) : '' ) )
                   td #{index+1}
                   td #{car.name}
                   //- td #{car.carType}
