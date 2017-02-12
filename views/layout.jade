@@ -7,6 +7,8 @@ html
     meta(name='description', content='')
     meta(name='author', content='')
     title= title
+    link(rel='stylesheet', href='/bower_components/tether/dist/css/tether.min.css')
+    link(rel='stylesheet', href='/bower_components/tether/dist/css/tether-theme-arrows-dark.min.css')
     link(rel='stylesheet', href='/node_modules/bootstrap/dist/css/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/justified-nav.css')
     //- link(rel="shortcut icon", href="/images/favicon.ico")
@@ -14,7 +16,7 @@ html
   body
     div.container
       div.masthead
-        h3.text-muted 公务用车调度系统
+        h3.text-muted.text-center(style="margin-bottom: 24px;") 公务用车调度系统
         nav
           ul.nav.nav-justified
             li.nav-item
@@ -35,6 +37,7 @@ html
 
     script(src='/node_modules/jquery/dist/jquery.min.js')
     //- script(src='/node_modules/jquery-dateformat/dist/jquery-dateFormat.min.js')
+    script(src='/bower_components/tether/dist/js/tether.min.js')
     script(src='/node_modules/bootstrap/dist/js/bootstrap.min.js')
     script(src='/javascripts/common.js')
     block footer-content

@@ -13,25 +13,29 @@ block content
             tr
                 th 序号
                 th 车牌号码
-                th 车辆类型
+                //- th 车辆类型
                 th 所属部门
-                th 厂牌类型
+                //- th 厂牌类型
                 th 座位数
                 th 车辆使用状态
-                th 车辆申请时间
+                //- th 车辆申请时间
+                th 使用开始时间
+                th 使用结束时间
                 th 借车人
                 th 还车操作
         each car, index in cars
           tbody
-              tr
+              tr(data-toggle="tooltip", data-animation="true", data-html="true", data-placement="top", title="车辆类型:" + car.carType + "<br />厂牌类型:" + car.brand + "<br />申请时间:" + (car.application ? car.application[0].createTime : '') )
                   td #{index+1}
                   td #{car.name}
-                  td #{car.carType}
+                  //- td #{car.carType}
                   td #{car.dname}
-                  td #{car.brand}
+                  //- td #{car.brand}
                   td #{car.seats}
                   td #{car.statusRealname}
-                  td= car.application ? car.application[0].createTime : ''
+                  //- td= car.application ? car.application[0].createTime : ''
+                  td= car.application ? car.application[0].startTime : ''
+                  td= car.application ? car.application[0].endTime : ''
                   td= car.application ? car.application[0].renterRealname : ''
                   td
                     - if (car.returnBtn)

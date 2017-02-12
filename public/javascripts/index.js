@@ -1,4 +1,6 @@
 $(function (){
+    $("[data-toggle='tooltip']").tooltip();
+    
     $('table.car-status').on('click', '.returnCarBtn', function (ev){
         var applicationId = $(this).attr('applicationId'),
             res = confirm('确定要进行还车操作吗？');
