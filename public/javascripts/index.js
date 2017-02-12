@@ -6,7 +6,7 @@ $(function (){
             res = confirm('确定要进行还车操作吗？');
         if (res == true) {
             $.ajax({
-                url: '/returnCar',
+                url: '/index/returnCar',
                 method: 'POST',
                 dataType: 'json',
                 data: {
@@ -17,7 +17,7 @@ $(function (){
                 if (status == 'success') {
                     if (data.status == 'successful') {
                         alert('还车成功！');
-                        location.href = '/';
+                        location.href = '/index';
                     }
                     else if (data.status == 'failed') {
                         alert(data.errMsg);
@@ -37,7 +37,7 @@ $(function (){
     $('.searchByPlate').click(function (ev){
         var plate = $('#carPlate').val();
         if (plate) {
-            location.href = '/plate-' + plate;
+            location.href = '/index/plate-' + plate;
         }
         else {
             alert('请输入车辆牌照!');
@@ -45,6 +45,6 @@ $(function (){
     });
 
     $('.resetPlate').click(function (ev){
-        location.href = '/';
+        location.href = '/index';
     });
 });

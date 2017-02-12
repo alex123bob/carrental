@@ -44,8 +44,9 @@ router.get('/:plate?', function (req, res, next) {
           sql = "select a.*, u.realname as renterRealname from application a left join user u on a.renter = u.name where a.isDeleted = 'false' and a.carId = " + car.id + " and a.status = 2";
         car.returnBtn = user.isAdmin({ depa: session.depaId, level: session.level }) ? true : false;
         conn.getConnection((error, connection) => {
+          console.log(sql);
           conn.query(sql, (err, rows, fields) => {
-            if (rows.length > 0) {
+            if (rows && rows.length > 0) {
               car.statusRealname = '已使用';
               rows.forEach((row, index, self) => {
                 row['createTime'] = dateformat(row['createTime'], 'yyyy-mm-dd HH:MM:ss');
