@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2017 at 01:44 AM
+-- Generation Time: Feb 14, 2017 at 01:54 AM
 -- Server version: 5.6.32
 -- PHP Version: 5.6.28
 
@@ -151,10 +151,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int(200) NOT NULL,
   `depa` int(200) NOT NULL COMMENT 'deparment id',
   `level` int(10) NOT NULL COMMENT 'user''s level in his depa, zero is the highest.',
+  `leveltitle` varchar(200) DEFAULT NULL COMMENT 'title of specific level',
   `name` varchar(200) NOT NULL COMMENT 'user''s name, police number by default',
   `pwd` varchar(200) NOT NULL COMMENT 'password, 12345 initially',
   `realname` varchar(200) NOT NULL COMMENT 'user''s realname',
   `contact` varchar(200) DEFAULT NULL COMMENT 'contact info, usually cellphone number',
+  `officephone` varchar(200) DEFAULT NULL COMMENT 'office phone number',
+  `shortnum` varchar(200) DEFAULT NULL COMMENT 'short phone number',
+  `email` varchar(200) DEFAULT NULL COMMENT 'email address',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isDeleted` varchar(5) NOT NULL DEFAULT 'false'
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
@@ -163,20 +167,20 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `depa`, `level`, `name`, `pwd`, `realname`, `contact`, `createTime`, `isDeleted`) VALUES
-(1, 8, 0, '33016565', '12345', '许关夫', '13122270965', '2016-12-09 17:55:09', 'false'),
-(2, 8, 1, '33014256', '12345', '刘蓝', '13122270965', '2016-12-11 18:02:44', 'false'),
-(3, 8, 1, '33010567', '12345', '王卫', '13122270965', '2016-12-11 18:04:06', 'false'),
-(4, 8, 1, '33015296', '12345', '吴江宏', '13122270965', '2016-12-11 18:04:06', 'false'),
-(5, 1, 0, '33010574', '12345', '秘书科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
-(6, 2, 0, '33010484', '12345', '科技管理科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
-(7, 3, 0, '33010083', '12345', '安全技术防范管理科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
-(8, 4, 0, '33010536', '12345', '通信勤务保障科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
-(9, 5, 0, '33010488', '12345', '计算机应用管理科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
-(10, 6, 0, '33010542', '12345', '系统运行服务科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
-(11, 7, 0, '33010489', '12345', '网络与信息安全科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
-(12, 1, 1, '33010526', '12345', '车管员', '18611940752', '2016-12-14 23:02:24', 'false'),
-(13, 4, 0, '33010536', '12345', '张菁', '13858017110', '2017-02-13 22:33:22', 'false');
+INSERT INTO `user` (`id`, `depa`, `level`, `leveltitle`, `name`, `pwd`, `realname`, `contact`, `officephone`, `shortnum`, `email`, `createTime`, `isDeleted`) VALUES
+(1, 8, 0, NULL, '33016565', '12345', '许关夫', '13122270965', NULL, NULL, NULL, '2016-12-09 17:55:09', 'false'),
+(2, 8, 1, NULL, '33014256', '12345', '刘蓝', '13122270965', NULL, NULL, NULL, '2016-12-11 18:02:44', 'false'),
+(3, 8, 1, NULL, '33010567', '12345', '王卫', '13122270965', NULL, NULL, NULL, '2016-12-11 18:04:06', 'false'),
+(4, 8, 1, NULL, '33015296', '12345', '吴江宏', '13122270965', NULL, NULL, NULL, '2016-12-11 18:04:06', 'false'),
+(5, 1, 0, NULL, '33010574', '12345', '秘书科账号', '13122270965', NULL, NULL, NULL, '2016-12-11 18:04:06', 'false'),
+(6, 2, 0, NULL, '33010484', '12345', '科技管理科账号', '13122270965', NULL, NULL, NULL, '2016-12-11 18:04:06', 'false'),
+(7, 3, 0, NULL, '33010083', '12345', '安全技术防范管理科账号', '13122270965', NULL, NULL, NULL, '2016-12-11 18:04:06', 'false'),
+(8, 4, 0, NULL, '33010536', '12345', '通信勤务保障科账号', '13122270965', NULL, NULL, NULL, '2016-12-11 18:04:06', 'false'),
+(9, 5, 0, NULL, '33010488', '12345', '计算机应用管理科账号', '13122270965', NULL, NULL, NULL, '2016-12-11 18:04:06', 'false'),
+(10, 6, 0, NULL, '33010542', '12345', '系统运行服务科账号', '13122270965', NULL, NULL, NULL, '2016-12-11 18:04:06', 'false'),
+(11, 7, 0, NULL, '33010489', '12345', '网络与信息安全科账号', '13122270965', NULL, NULL, NULL, '2016-12-11 18:04:06', 'false'),
+(12, 1, 1, NULL, '33010526', '12345', '车管员', '18611940752', NULL, NULL, NULL, '2016-12-14 23:02:24', 'false'),
+(13, 4, 0, NULL, '33010536', '12345', '张菁', '13858017110', NULL, NULL, NULL, '2017-02-13 22:33:22', 'false');
 
 --
 -- Indexes for dumped tables
