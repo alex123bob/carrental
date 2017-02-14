@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2016 at 02:14 PM
+-- Generation Time: Feb 14, 2017 at 01:44 AM
 -- Server version: 5.6.32
--- PHP Version: 5.6.27
+-- PHP Version: 5.6.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `carrental`
 --
-CREATE DATABASE IF NOT EXISTS `carrental` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `carrental`;
 
 -- --------------------------------------------------------
 
@@ -40,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `application` (
   `workContent` varchar(200) DEFAULT NULL,
   `scope` int(20) NOT NULL COMMENT 'application scope, inside or outside the city',
   `address` varchar(200) DEFAULT NULL COMMENT 'specific address of the rented car',
-  `status` int(20) NOT NULL COMMENT 'application status',
+  `status` int(20) NOT NULL COMMENT '-1: failed, 0: initial status(ready for admin check), 1: ready for director check, 2: director checked and car is distributed, 3: car is returned back.',
   `carId` int(200) DEFAULT NULL COMMENT 'the id of rented car',
   `remark` varchar(200) DEFAULT NULL COMMENT 'remark',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -52,8 +50,8 @@ CREATE TABLE IF NOT EXISTS `application` (
 --
 
 INSERT INTO `application` (`id`, `depa`, `renter`, `contact`, `headcount`, `startTime`, `endTime`, `workContent`, `scope`, `address`, `status`, `carId`, `remark`, `createTime`, `isDeleted`) VALUES
-(1, '8', '33015296', '13122270965', 1, '2016-12-19 12:02:50', '2016-12-30 12:02:50', '1,2,6,7', 0, '秋涛路', 2, 1, '谢谢', '2016-12-18 12:03:19', 'false'),
-(2, '8', '33015296', '13122270965', 1, '2016-12-24 12:05:51', '2016-12-30 12:05:51', '1,2', 1, '安吉', 0, NULL, '哈哈', '2016-12-18 12:06:08', 'false');
+(1, '5', '33010488', '13122270965', 1, '2017-02-06 10:59:59', '2017-02-08 10:59:59', '1,2', 0, 'asdfasdf', 3, 1, 'asdfa', '2017-02-06 11:00:14', 'false'),
+(2, '1', '33010574', '13122270965', 3, '2017-02-13 09:54:46', '2017-03-11 14:02:01', '1,2', 0, '秋涛路', 2, 3, '请批准，来自秘书科', '2017-02-12 09:55:31', 'false');
 
 -- --------------------------------------------------------
 
@@ -72,15 +70,17 @@ CREATE TABLE IF NOT EXISTS `application_records` (
   `remark` varchar(200) DEFAULT NULL COMMENT 'remark when change application status',
   `createTime` datetime DEFAULT CURRENT_TIMESTAMP,
   `isDeleted` varchar(5) NOT NULL DEFAULT 'false'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `application_records`
 --
 
 INSERT INTO `application_records` (`id`, `applicationId`, `checker`, `originalStatus`, `newStatus`, `drt`, `remark`, `createTime`, `isDeleted`) VALUES
-(1, 1, '33010526', 0, 1, '+1', '可以', '2016-12-18 12:04:17', 'false'),
-(2, 1, '33016565', 1, 2, '+1', '很好', '2016-12-18 12:05:13', 'false');
+(1, 1, '33010526', 0, 1, '+1', '车馆员同意', '2017-02-06 11:02:47', 'false'),
+(2, 1, '33016565', 1, 2, '+1', '局长同意', '2017-02-06 11:03:39', 'false'),
+(3, 2, '33010526', 0, 1, '+1', '可以', '2017-02-12 09:55:51', 'false'),
+(4, 2, '33016565', 1, 2, '+1', '领导同意', '2017-02-12 09:56:21', 'false');
 
 -- --------------------------------------------------------
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `car` (
   `remark` varchar(100) DEFAULT NULL,
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isDeleted` varchar(5) NOT NULL DEFAULT 'false'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `car`
@@ -107,7 +107,8 @@ CREATE TABLE IF NOT EXISTS `car` (
 
 INSERT INTO `car` (`id`, `name`, `carType`, `depaId`, `brand`, `seats`, `remark`, `createTime`, `isDeleted`) VALUES
 (1, '浙A00001', '小汽车', 9, '大众', 5, '测试车辆', '2016-12-18 10:20:10', 'false'),
-(2, '浙A0002', '轿车', 9, '奥迪', 5, '测试2号车', '2016-12-18 10:24:13', 'false');
+(2, '浙A0002', '轿车', 9, '奥迪', 5, '测试2号车', '2016-12-18 10:24:13', 'false'),
+(3, '浙A0003', '轿车', 9, 'mini cooper', 2, '测试用车,mini,my favourite', '2017-01-05 14:28:22', 'false');
 
 -- --------------------------------------------------------
 
@@ -136,7 +137,7 @@ INSERT INTO `depa` (`id`, `name`, `parentId`, `createTime`, `isDeleted`) VALUES
 (5, '计算机应用管理科', 9, '2016-12-09 16:38:11', 'false'),
 (6, '系统运行服务科', 9, '2016-12-09 16:38:11', 'false'),
 (7, '网络与信息安全科', 9, '2016-12-09 16:38:11', 'false'),
-(8, '领导层', 9, '2016-12-09 17:52:58', 'false'),
+(8, '局领导', 9, '2016-12-09 17:52:58', 'false'),
 (9, '科技信息化局', -1, '2016-12-28 21:10:33', 'false');
 
 -- --------------------------------------------------------
@@ -156,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `contact` varchar(200) DEFAULT NULL COMMENT 'contact info, usually cellphone number',
   `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isDeleted` varchar(5) NOT NULL DEFAULT 'false'
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
@@ -174,7 +175,8 @@ INSERT INTO `user` (`id`, `depa`, `level`, `name`, `pwd`, `realname`, `contact`,
 (9, 5, 0, '33010488', '12345', '计算机应用管理科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
 (10, 6, 0, '33010542', '12345', '系统运行服务科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
 (11, 7, 0, '33010489', '12345', '网络与信息安全科账号', '13122270965', '2016-12-11 18:04:06', 'false'),
-(12, 1, 1, '33010526', '12345', '车管员', '18611940752', '2016-12-14 23:02:24', 'false');
+(12, 1, 1, '33010526', '12345', '车管员', '18611940752', '2016-12-14 23:02:24', 'false'),
+(13, 4, 0, '33010536', '12345', '张菁', '13858017110', '2017-02-13 22:33:22', 'false');
 
 --
 -- Indexes for dumped tables
@@ -223,12 +225,12 @@ ALTER TABLE `application`
 -- AUTO_INCREMENT for table `application_records`
 --
 ALTER TABLE `application_records`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `car`
 --
 ALTER TABLE `car`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `depa`
 --
@@ -238,7 +240,7 @@ ALTER TABLE `depa`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+  MODIFY `id` int(200) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
